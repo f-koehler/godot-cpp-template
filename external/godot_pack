@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euf -o pipefail
+
+tar --create --format=posix --preserve-permissions --to-stdout --verbose godot godot-cpp | xz --threads=`nproc` > godot.tar.xz

@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euf -o pipefail
+
+git submodule update --init --recursive
+
+# nice -n 19 scons -C godot/ -j`nproc` platform=x11 bits=64 use_llvm=no
+# nice -n 19 scons -C godot/ -j`nproc` platform=x11 tools=no target=release bits=64 use_llvm=no
+# nice -n 19 scons -C godot/ -j`nproc` platform=x11 tools=no target=release_debug bits=64 use_llvm=no
+# godot/bin/godot.x11.tools.64 --gdnative-generate-json-api godot_api.json
+nice -n 19 scons -C godot-cpp/ -j`nproc` platform=linux use_custom_api_file=yes custom_api_file=$PWD/godot_api.json generate_bindings=yes target=debug use_llvm=no
+nice -n 19 scons -C godot-cpp/ -j`nproc` platform=linux use_custom_api_file=yes custom_api_file=$PWD/godot_api.json generate_bindings=yes target=release use_llvm=no
